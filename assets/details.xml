@@ -1,0 +1,100 @@
+<Scaffold>
+    <attr:appBar>
+        <AppBar>
+            <attr:title>
+                <Text>${infoData.title}</Text>
+            </attr:title>
+        </AppBar>
+    </attr:appBar>
+    <attr:body>
+        <BetterRefreshIndicator controller="$refreshController">
+            <ListView>
+                <ImageSlideshow height="200" autoPlayInterval="3000">
+                    <for array="${infoData.data.images}">
+                        <WebImage url="$item" fit="cover"/>
+                    </for>
+                </ImageSlideshow>
+                <Padding padding="fromLTRB(5,10,5,4)">
+                    <Text>
+                        <attr:style>
+                            <TextStyle fontSize="18" fontWeight="w600"/>
+                        </attr:style>
+                        <arg:0>${infoData.title}</arg:0>
+                    </Text>
+                </Padding>
+                <Padding padding="fromLTRB(5,2,5,2)">
+                    <ExpandableText
+                        expandText="show more"
+                        collapseText="show less"
+                        animation="true"
+                        maxLines="10"
+                        linkColor="blue">
+                        ${infoData.summary}
+                    </ExpandableText>
+                </Padding>
+                <Divider/>
+                <Padding padding="fromLTRB(5,2,5,2)">
+                    <Row>
+                        <Icon>format_list_numbered_sharp</Icon>
+                        <Padding padding="all(5)"/>
+                        <Text>Download List</Text>
+                    </Row>
+                </Padding>
+                <Divider/>
+                <for count="$itemCount">
+                    <Function creator="true" returnType="Widget">
+                        <Call function="$getItem" return="itemData">
+                            <Argument value="$index"/>
+                        </Call>
+                        <Builder>
+                            <DownloadWidget context="$context" index="$index">
+                                <attr:builder>
+                                    <Function returnType="Widget">
+                                        <SetArgument return="downloadItem" argument="${args[1]}"/>
+                                        <Builder>
+                                            <ListTile>
+                                                <attr:title>
+                                                    <Text>${itemData.title}</Text>
+                                                </attr:title>
+                                                <attr:leading>
+                                                    <if candidate="equal(0, ${downloadItem.status})">
+                                                        <Icon>download_sharp</Icon>
+                                                    </if>
+                                                    <else candidate="equal(1, ${downloadItem.status})">
+                                                        <Icon>sync</Icon>
+                                                    </else>
+                                                    <else>
+                                                        <Icon>check</Icon>
+                                                    </else>
+                                                </attr:leading>
+                                                <if candidate="isNotEmpty(${itemData.subtitle})">
+                                                    <attr:subtitle>
+                                                        <Text>${itemData.subtitle}</Text>
+                                                    </attr:subtitle>
+                                                </if>
+                                                <if candidate="equal(2, ${downloadItem.status})">
+                                                    <attr:trailing>
+                                                        <IconButton onPressed="${downloadItem.install}">
+                                                            <attr:icon>
+                                                                <Icon>create</Icon>
+                                                            </attr:icon>
+                                                        </IconButton>
+                                                    </attr:trailing>
+                                                </if>
+                                                <if candidate="equal(0, ${downloadItem.status})">
+                                                    <attr:onTap>
+                                                        <proxy target="${downloadItem.start}"/>
+                                                    </attr:onTap>
+                                                </if>
+                                            </ListTile>
+                                        </Builder>
+                                    </Function>
+                                </attr:builder>
+                            </DownloadWidget>
+                        </Builder>
+                    </Function>
+                </for>
+            </ListView>
+        </BetterRefreshIndicator>
+    </attr:body>
+</Scaffold>

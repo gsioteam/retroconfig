@@ -1,0 +1,7 @@
+targets:
+  $default:
+    builders:
+      xml_layout:
+        generate_for:
+          - lib/layout/layout.dart
+          - lib/layout/widgets.dart

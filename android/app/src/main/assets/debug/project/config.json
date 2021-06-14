@@ -1,0 +1,96 @@
+{
+    "name": "agefans",
+    "url": "http://www.rendiyu.com/",
+    "index": "index.js",
+    "collections": [
+        "details.js"
+    ],
+    "search": {
+        "src": "search.js",
+        "data": {
+            "url": "https://romsie.com/roms/search?term={0}"
+        }
+    },
+    "categories": [
+        {
+            "title": "Gameboy Advance",
+            "id": "Nintendo - Game Boy Advance",
+            "url": "https://romsie.com/roms/gameboy-advance/{0}"
+        },
+        {
+            "title": "Super Nintendo",
+            "id": "Nintendo - Super Nintendo Entertainment System",
+            "url": "https://romsie.com/roms/super-nintendo/{0}"
+        },
+        {
+            "title": "Nintendo DS",
+            "id": "Nintendo - Nintendo DS",
+            "url": "https://romsie.com/roms/nintendo-ds/{0}"
+        },
+        {
+            "title": "Nintendo 64",
+            "id": "Nintendo - Nintendo 64",
+            "url": "https://romsie.com/roms/nintendo-64/{0}"
+        },
+        {
+            "title": "Playstation Portable",
+            "id": "Sony - PlayStation Portable",
+            "url": "https://romsie.com/roms/playstation-portable/{0}"
+        },
+        {
+            "title": "Gameboy Color",
+            "id": "Nintendo - Game Boy Color",
+            "url": "https://romsie.com/roms/gameboy-color/{0}"
+        },
+        {
+            "title": "Nintendo",
+            "id": "Nintendo - Nintendo Entertainment System",
+            "url": "https://romsie.com/roms/nintendo/{0}"
+        },
+        {
+            "title": "Playstation",
+            "id": "Sony - PlayStation",
+            "url": "https://romsie.com/roms/playstation/{0}"
+        },
+        {
+            "title": "GameCube",
+            "id": "Nintendo - GameCube",
+            "url": "https://romsie.com/roms/gamecube/{0}"
+        },
+        {
+            "title": "Nintendo Wii",
+            "id": "Nintendo - Wii",
+            "url": "https://romsie.com/roms/nintendo-wii/{0}"
+        },
+        {
+            "title": "Gameboy",
+            "id": "Nintendo - Game Boy",
+            "url": "https://romsie.com/roms/gameboy/{0}"
+        },
+        {
+            "title": "Sega Genesis",
+            "id": "Sega - Mega Drive - Genesis",
+            "url": "https://romsie.com/roms/sega-genesis/{0}"
+        },
+        {
+            "title": "Playstation 2",
+            "id": "Sony - PlayStation 2",
+            "url": "https://romsie.com/roms/playstation-2/{0}"
+        },
+        {
+            "title": "MAME 037b11",
+            "id": "MAME",
+            "url": "https://romsie.com/roms/mame-037b11/{0}"
+        },
+        {
+            "title": "Amiga 500",
+            "id": "Commodore - Amiga",
+            "url": "https://romsie.com/roms/amiga-500/{0}"
+        },
+        {
+            "title": "Neo Geo",
+            "id": "SNK - Neo Geo CD",
+            "url": "https://romsie.com/roms/neo-geo/{0}"
+        }
+    ]
+}

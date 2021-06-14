@@ -1,0 +1,4 @@
+.idea
+build
+.cxx
+plugins/glib/ios/lib
