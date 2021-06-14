@@ -14,10 +14,11 @@ class DetailsCollection extends Collection {
 
         let info_data = this.info_data;
         info_data.summary = doc.querySelector('.roms-desc').text.trim();
+        let img = doc.querySelector('.rom-cover').attr('src');
         info_data.data = {
             type: this.type,
-            images: [doc.querySelector('.rom-cover').attr('src')],
-            cover: info_data.picture
+            images: [img],
+            cover: img
         };
 
         let items = [];

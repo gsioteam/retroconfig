@@ -2,3 +2,7 @@
 build
 .cxx
 plugins/glib/ios/lib
+.dart_tool
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages

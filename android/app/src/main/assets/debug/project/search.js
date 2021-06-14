@@ -36,7 +36,7 @@ class SearchCollection extends Collection {
         for (let data of result) {
             let item = glib.DataItem.new();
 
-            item.link = pageUrl.href(data.romSlug);
+            item.link = pageUrl.href(`/${data.romSlug}-${data.consoleSlug}-rom`);
             item.title = data.name.replace('&amp;', '&');
             let type = typeDB[data.consoleSlug];
             item.subtitle = type;

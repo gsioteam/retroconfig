@@ -2,9 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:glib/core/array.dart';
 import 'package:glib/main/context.dart';
+import 'package:glib/main/data_item.dart';
 import 'package:glib/main/project.dart';
 import 'package:retroconfig/widgets/collection_view.dart';
 import '../configs.dart';
+import 'details.dart';
 
 class _DisplayRectClipper extends CustomClipper<Rect> {
 
@@ -280,8 +282,20 @@ class SearchState extends State<Search> {
             child: Stack(
               children: <Widget>[
                 CollectionView(
-                    context: widget.context,
-                    template: template
+                  context: widget.context,
+                  template: template,
+                  onTap: (item) async {
+                    if (item.type == DataItemType.Data) {
+                      Context itemContext = widget.project.createCollectionContext(DETAILS_INDEX, item).control();
+                      await Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                        return Details(
+                            project: widget.project,
+                            context: itemContext
+                        );
+                      }));
+                      itemContext.release();
+                    }
+                  },
                 ),
                 AnimatedExtend(
                   child: Container(
