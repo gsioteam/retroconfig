@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'localizations/localizations.dart';
 
 class RetroArchDialog extends StatefulWidget {
   @override
@@ -16,18 +17,18 @@ class RetroArchDialogState extends State<RetroArchDialog> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text("RetroArch", style: Theme.of(context).textTheme.headline6,),
+          Text(kt("retroarch"), style: Theme.of(context).textTheme.headline6,),
           Padding(padding: EdgeInsets.only(top: 10)),
           ListTile(
             leading: Icon(Icons.shop, size: 24,),
-            title: Text("Google Play"),
+            title: Text(kt("google_play")),
             onTap: () {
 
             },
           ),
           ListTile(
             leading: Icon(Icons.open_in_browser, size: 24,),
-            title: Text("Official website"),
+            title: Text(kt("official_website")),
             onTap: () {
 
             },
@@ -37,7 +38,7 @@ class RetroArchDialogState extends State<RetroArchDialog> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text("Cancel")
+              child: Text(kt("cancel"))
           )
         ],
       ),

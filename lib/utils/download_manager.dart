@@ -32,6 +32,8 @@ class DownloadItem {
 
   String key;
 
+  dynamic customData;
+
   DownloadItem._(this.key) {
     file = File("${Configs().romsRoot.path}/$key");
     if (file.existsSync()) {
@@ -136,6 +138,7 @@ class DownloadItem {
     };
     _downloader.onClicked = () {
       print("Clicked!");
+      DownloadManager().onClicked?.call(this);
     };
   }
 
@@ -155,6 +158,8 @@ class DownloadManager {
 
   static DownloadManager _manager;
   Map<String, DownloadItem> _downloads = {};
+
+  void Function(DownloadItem) onClicked;
 
   factory DownloadManager() {
     if (_manager == null)

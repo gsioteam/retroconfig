@@ -1,6 +1,6 @@
 {
-    "name": "agefans",
-    "url": "http://www.rendiyu.com/",
+    "name": "KillerRoms",
+    "url": "https://roms-download.com/",
     "index": "index.js",
     "collections": [
         "details.js"
@@ -8,89 +8,364 @@
     "search": {
         "src": "search.js",
         "data": {
-            "url": "https://romsie.com/roms/search?term={0}"
+            "url": "https://roms-download.com/search"
         }
     },
     "categories": [
         {
-            "title": "Gameboy Advance",
-            "id": "Nintendo - Game Boy Advance",
-            "url": "https://romsie.com/roms/gameboy-advance/{0}"
+            "title": "Amiga 500",
+            "id": "amiga-500",
+            "url": "https://roms-download.com/roms/amiga-500/{0}-page"
         },
         {
-            "title": "Super Nintendo",
-            "id": "Nintendo - Super Nintendo Entertainment System",
-            "url": "https://romsie.com/roms/super-nintendo/{0}"
+            "title": "Amstrad CPC",
+            "id": "amstrad-cpc",
+            "url": "https://roms-download.com/roms/amstrad-cpc/{0}-page"
         },
         {
-            "title": "Nintendo DS",
-            "id": "Nintendo - Nintendo DS",
-            "url": "https://romsie.com/roms/nintendo-ds/{0}"
+            "title": "Atari 2600",
+            "id": "atari-2600",
+            "url": "https://roms-download.com/roms/atari-2600/{0}-page"
         },
         {
-            "title": "Nintendo 64",
-            "id": "Nintendo - Nintendo 64",
-            "url": "https://romsie.com/roms/nintendo-64/{0}"
+            "title": "Atari 5200",
+            "id": "atari-5200",
+            "url": "https://roms-download.com/roms/atari-5200/{0}-page"
         },
         {
-            "title": "Playstation Portable",
-            "id": "Sony - PlayStation Portable",
-            "url": "https://romsie.com/roms/playstation-portable/{0}"
+            "title": "Atari 7800",
+            "id": "atari-7800",
+            "url": "https://roms-download.com/roms/atari-7800/{0}-page"
         },
         {
-            "title": "Gameboy Color",
-            "id": "Nintendo - Game Boy Color",
-            "url": "https://romsie.com/roms/gameboy-color/{0}"
+            "title": "Atari 800",
+            "id": "atari-800",
+            "url": "https://roms-download.com/roms/atari-800/{0}-page"
         },
         {
-            "title": "Nintendo",
-            "id": "Nintendo - Nintendo Entertainment System",
-            "url": "https://romsie.com/roms/nintendo/{0}"
+            "title": "Atari Jaguar",
+            "id": "atari-jaguar",
+            "url": "https://roms-download.com/roms/atari-jaguar/{0}-page"
         },
         {
-            "title": "Playstation",
-            "id": "Sony - PlayStation",
-            "url": "https://romsie.com/roms/playstation/{0}"
+            "title": "Atari Lynx",
+            "id": "atari-lynx",
+            "url": "https://roms-download.com/roms/atari-lynx/{0}-page"
         },
         {
-            "title": "GameCube",
-            "id": "Nintendo - GameCube",
-            "url": "https://romsie.com/roms/gamecube/{0}"
+            "title": "Atari ST",
+            "id": "atari-st",
+            "url": "https://roms-download.com/roms/atari-st/{0}-page"
         },
         {
-            "title": "Nintendo Wii",
-            "id": "Nintendo - Wii",
-            "url": "https://romsie.com/roms/nintendo-wii/{0}"
+            "title": "Capcom Play System 1",
+            "id": "capcom-play-system-1",
+            "url": "https://roms-download.com/roms/capcom-play-system-1/{0}-page"
+        },
+        {
+            "title": "Capcom Play System 2",
+            "id": "capcom-play-system-2",
+            "url": "https://roms-download.com/roms/capcom-play-system-2/{0}-page"
+        },
+        {
+            "title": "Casio Loopy",
+            "id": "casio-loopy",
+            "url": "https://roms-download.com/roms/casio-loopy/{0}-page"
+        },
+        {
+            "title": "Casio PV1000",
+            "id": "casio-pv1000",
+            "url": "https://roms-download.com/roms/casio-pv1000/{0}-page"
+        },
+        {
+            "title": "ColecoVision",
+            "id": "colecovision",
+            "url": "https://roms-download.com/roms/colecovision/{0}-page"
+        },
+        {
+            "title": "ColecoVision ADAM",
+            "id": "colecovision-adam",
+            "url": "https://roms-download.com/roms/colecovision-adam/{0}-page"
+        },
+        {
+            "title": "Commodore 64",
+            "id": "commodore-64",
+            "url": "https://roms-download.com/roms/commodore-64/{0}-page"
+        },
+        {
+            "title": "Commodore Max Machine",
+            "id": "commodore-max-machine",
+            "url": "https://roms-download.com/roms/commodore-max-machine/{0}-page"
+        },
+        {
+            "title": "Commodore Pet",
+            "id": "commodore-pet",
+            "url": "https://roms-download.com/roms/commodore-pet/{0}-page"
+        },
+        {
+            "title": "Commodore Plus4 C16",
+            "id": "commodore-plus4-c16",
+            "url": "https://roms-download.com/roms/commodore-plus4-c16/{0}-page"
+        },
+        {
+            "title": "Commodore VIC20",
+            "id": "commodore-vic20",
+            "url": "https://roms-download.com/roms/commodore-vic20/{0}-page"
+        },
+        {
+            "title": "Emerson Arcadia 2001",
+            "id": "emerson-arcadia-2001",
+            "url": "https://roms-download.com/roms/emerson-arcadia-2001/{0}-page"
+        },
+        {
+            "title": "Entex Adventure Vision",
+            "id": "entex-adventure-vision",
+            "url": "https://roms-download.com/roms/entex-adventure-vision/{0}-page"
+        },
+        {
+            "title": "Epoch Super Cassette Vision",
+            "id": "epoch-super-cassette-vision",
+            "url": "https://roms-download.com/roms/epoch-super-cassette-vision/{0}-page"
+        },
+        {
+            "title": "Fairchild Channel F",
+            "id": "fairchild-channel-f",
+            "url": "https://roms-download.com/roms/fairchild-channel-f/{0}-page"
+        },
+        {
+            "title": "Funtech Super Acan",
+            "id": "funtech-super-acan",
+            "url": "https://roms-download.com/roms/funtech-super-acan/{0}-page"
+        },
+        {
+            "title": "Game Gear",
+            "id": "game-gear",
+            "url": "https://roms-download.com/roms/game-gear/{0}-page"
         },
         {
             "title": "Gameboy",
-            "id": "Nintendo - Game Boy",
-            "url": "https://romsie.com/roms/gameboy/{0}"
+            "id": "gameboy",
+            "url": "https://roms-download.com/roms/gameboy/{0}-page"
         },
         {
-            "title": "Sega Genesis",
-            "id": "Sega - Mega Drive - Genesis",
-            "url": "https://romsie.com/roms/sega-genesis/{0}"
+            "title": "Gameboy Advance",
+            "id": "gameboy-advance",
+            "url": "https://roms-download.com/roms/gameboy-advance/{0}-page"
         },
         {
-            "title": "Playstation 2",
-            "id": "Sony - PlayStation 2",
-            "url": "https://romsie.com/roms/playstation-2/{0}"
+            "title": "Gameboy Color",
+            "id": "gameboy-color",
+            "url": "https://roms-download.com/roms/gameboy-color/{0}-page"
+        },
+        {
+            "title": "GameCube",
+            "id": "gamecube",
+            "url": "https://roms-download.com/roms/gamecube/{0}-page"
+        },
+        {
+            "title": "GamePark GP32",
+            "id": "gamepark-gp32",
+            "url": "https://roms-download.com/roms/gamepark-gp32/{0}-page"
+        },
+        {
+            "title": "GCE Vectrex",
+            "id": "gce-vectrex",
+            "url": "https://roms-download.com/roms/gce-vectrex/{0}-page"
+        },
+        {
+            "title": "Hartung Game Master",
+            "id": "hartung-game-master",
+            "url": "https://roms-download.com/roms/hartung-game-master/{0}-page"
+        },
+        {
+            "title": "Intellivision",
+            "id": "intellivision",
+            "url": "https://roms-download.com/roms/intellivision/{0}-page"
+        },
+        {
+            "title": "Magnavox Odyssey 2",
+            "id": "magnavox-odyssey-2",
+            "url": "https://roms-download.com/roms/magnavox-odyssey-2/{0}-page"
         },
         {
             "title": "MAME 037b11",
-            "id": "MAME",
-            "url": "https://romsie.com/roms/mame-037b11/{0}"
+            "id": "mame-037b11",
+            "url": "https://roms-download.com/roms/mame-037b11/{0}-page"
         },
         {
-            "title": "Amiga 500",
-            "id": "Commodore - Amiga",
-            "url": "https://romsie.com/roms/amiga-500/{0}"
+            "title": "MSX 2",
+            "id": "msx-2",
+            "url": "https://roms-download.com/roms/msx-2/{0}-page"
+        },
+        {
+            "title": "MSX Computer",
+            "id": "msx-computer",
+            "url": "https://roms-download.com/roms/msx-computer/{0}-page"
         },
         {
             "title": "Neo Geo",
-            "id": "SNK - Neo Geo CD",
-            "url": "https://romsie.com/roms/neo-geo/{0}"
+            "id": "neo-geo",
+            "url": "https://roms-download.com/roms/neo-geo/{0}-page"
+        },
+        {
+            "title": "Neo Geo Pocket",
+            "id": "neo-geo-pocket",
+            "url": "https://roms-download.com/roms/neo-geo-pocket/{0}-page"
+        },
+        {
+            "title": "Neo Geo Pocket Color",
+            "id": "neo-geo-pocket-color",
+            "url": "https://roms-download.com/roms/neo-geo-pocket-color/{0}-page"
+        },
+        {
+            "title": "Nintendo",
+            "id": "nintendo",
+            "url": "https://roms-download.com/roms/nintendo/{0}-page"
+        },
+        {
+            "title": "Nintendo 64",
+            "id": "nintendo-64",
+            "url": "https://roms-download.com/roms/nintendo-64/{0}-page"
+        },
+        {
+            "title": "Nintendo DS",
+            "id": "nintendo-ds",
+            "url": "https://roms-download.com/roms/nintendo-ds/{0}-page"
+        },
+        {
+            "title": "Nintendo Famicom Disk System",
+            "id": "nintendo-famicom-disk-system",
+            "url": "https://roms-download.com/roms/nintendo-famicom-disk-system/{0}-page"
+        },
+        {
+            "title": "Nintendo Pokemon Mini",
+            "id": "nintendo-pokemon-mini",
+            "url": "https://roms-download.com/roms/nintendo-pokemon-mini/{0}-page"
+        },
+        {
+            "title": "Nintendo Virtual Boy",
+            "id": "nintendo-virtual-boy",
+            "url": "https://roms-download.com/roms/nintendo-virtual-boy/{0}-page"
+        },
+        {
+            "title": "Nintendo Wii",
+            "id": "nintendo-wii",
+            "url": "https://roms-download.com/roms/nintendo-wii/{0}-page"
+        },
+        {
+            "title": "Philips Videopac",
+            "id": "philips-videopac",
+            "url": "https://roms-download.com/roms/philips-videopac/{0}-page"
+        },
+        {
+            "title": "Playstation",
+            "id": "playstation",
+            "url": "https://roms-download.com/roms/playstation/{0}-page"
+        },
+        {
+            "title": "Playstation 2",
+            "id": "playstation-2",
+            "url": "https://roms-download.com/roms/playstation-2/{0}-page"
+        },
+        {
+            "title": "Playstation Portable",
+            "id": "playstation-portable",
+            "url": "https://roms-download.com/roms/playstation-portable/{0}-page"
+        },
+        {
+            "title": "RCA Studio II",
+            "id": "rca-studio-ii",
+            "url": "https://roms-download.com/roms/rca-studio-ii/{0}-page"
+        },
+        {
+            "title": "Sega 32x",
+            "id": "sega-32x",
+            "url": "https://roms-download.com/roms/sega-32x/{0}-page"
+        },
+        {
+            "title": "Sega Dreamcast",
+            "id": "dreamcast",
+            "url": "https://roms-download.com/roms/dreamcast/{0}-page"
+        },
+        {
+            "title": "Sega Genesis",
+            "id": "sega-genesis",
+            "url": "https://roms-download.com/roms/sega-genesis/{0}-page"
+        },
+        {
+            "title": "Sega Master System",
+            "id": "sega-master-system",
+            "url": "https://roms-download.com/roms/sega-master-system/{0}-page"
+        },
+        {
+            "title": "Sega Pico",
+            "id": "sega-pico",
+            "url": "https://roms-download.com/roms/sega-pico/{0}-page"
+        },
+        {
+            "title": "Sega SG1000",
+            "id": "sega-sg1000",
+            "url": "https://roms-download.com/roms/sega-sg1000/{0}-page"
+        },
+        {
+            "title": "Sharp X68000",
+            "id": "sharp-x68000",
+            "url": "https://roms-download.com/roms/sharp-x68000/{0}-page"
+        },
+        {
+            "title": "Sinclair ZX81",
+            "id": "sinclair-zx81",
+            "url": "https://roms-download.com/roms/sinclair-zx81/{0}-page"
+        },
+        {
+            "title": "Sufami Turbo",
+            "id": "sufami-turbo",
+            "url": "https://roms-download.com/roms/sufami-turbo/{0}-page"
+        },
+        {
+            "title": "Super Nintendo",
+            "id": "super-nintendo",
+            "url": "https://roms-download.com/roms/super-nintendo/{0}-page"
+        },
+        {
+            "title": "Thomson MO5",
+            "id": "thomson-mo5",
+            "url": "https://roms-download.com/roms/thomson-mo5/{0}-page"
+        },
+        {
+            "title": "Tiger Game Com",
+            "id": "tiger-game-com",
+            "url": "https://roms-download.com/roms/tiger-game-com/{0}-page"
+        },
+        {
+            "title": "TurboGrafx 16",
+            "id": "turbografx-16",
+            "url": "https://roms-download.com/roms/turbografx-16/{0}-page"
+        },
+        {
+            "title": "VTech CreatiVision",
+            "id": "vtech-creativision",
+            "url": "https://roms-download.com/roms/vtech-creativision/{0}-page"
+        },
+        {
+            "title": "VTech V Smile",
+            "id": "vtech-v-smile",
+            "url": "https://roms-download.com/roms/vtech-v-smile/{0}-page"
+        },
+        {
+            "title": "Watara Supervision",
+            "id": "watara-supervision",
+            "url": "https://roms-download.com/roms/watara-supervision/{0}-page"
+        },
+        {
+            "title": "WonderSwan",
+            "id": "wonderswan",
+            "url": "https://roms-download.com/roms/wonderswan/{0}-page"
+        },
+        {
+            "title": "ZX Spectrum",
+            "id": "zx-spectrum",
+            "url": "https://roms-download.com/roms/zx-spectrum/{0}-page"
         }
     ]
 }

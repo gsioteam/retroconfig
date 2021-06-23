@@ -3,6 +3,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'en.dart' as en;
+import 'zh_hans.dart' as zhHans;
+import 'zh_hant.dart' as zhHant;
 
 class LocaleChangedNotification extends Notification {
   Locale locale;
@@ -25,30 +27,28 @@ class PrettyLocalizations {
 class PrettyLocalizationsDelegate extends LocalizationsDelegate<PrettyLocalizations> {
   static const Map<String, Locale> supports = const <String, Locale>{
     "en": const Locale.fromSubtags(languageCode: 'en'),
-    // "zh-hant": const Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant'),
-    // "zh-hans": const Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hans')
+    "zh-hant": const Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant'),
+    "zh-hans": const Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hans')
   };
 
   const PrettyLocalizationsDelegate();
 
   @override
-  bool isSupported(Locale locale) {
-    return true;
-  }
+  bool isSupported(Locale locale) => true;
 
   @override
   Future<PrettyLocalizations> load(Locale locale) {
     switch (locale.languageCode) {
-      // case 'zh': {
-      //   if (locale.scriptCode == 'Hans') {
-      //     return get(zhHans.words);
-      //   } else if (locale.scriptCode == 'Hant') {
-      //     return get(zhHant.words);
-      //   } else {
-      //     return get(zhHant.words);
-      //   }
-      //   break;
-      // }
+      case 'zh': {
+        if (locale.scriptCode == 'Hans') {
+          return get(zhHans.words);
+        } else if (locale.scriptCode == 'Hant') {
+          return get(zhHant.words);
+        } else {
+          return get(zhHant.words);
+        }
+        break;
+      }
       default: {
         return get(en.words);
       }

@@ -9,6 +9,7 @@ import 'package:glib/main/error.dart' as glib;
 import 'package:glib/core/gmap.dart';
 import 'package:glib/core/array.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:retroconfig/localizations/localizations.dart';
 import 'package:xml_layout/types/function.dart';
 import 'package:xml_layout/xml_layout.dart';
 
@@ -26,13 +27,15 @@ class CollectionView extends StatefulWidget {
   final String template;
   final void Function(DataItem item) onTap;
   final Map<String, dynamic> extensions;
+  final VoidCallback onDataChanged;
 
   CollectionView({
     Key key,
     @required this.context,
     @required this.template,
     this.onTap,
-    this.extensions
+    this.extensions,
+    this.onDataChanged
   }) : super(key: key);
 
   @override
@@ -71,7 +74,8 @@ class CollectionViewState extends State<CollectionView> {
       "infoData": processData(widget.context.infoData),
       "onTap": (int idx) {
         widget.onTap?.call(widget.context.data[idx]);
-      }
+      },
+      "kt": (String str) => kt(str),
     };
     if (widget.extensions != null)
       objects.addAll(widget.extensions);
@@ -112,6 +116,7 @@ class CollectionViewState extends State<CollectionView> {
   }
 
   void onDataChanged(int type, Array data, int idx) {
+    widget.onDataChanged?.call();
     setState(() { });
   }
 

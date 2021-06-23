@@ -23,6 +23,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
 
   cupertino_icons: ^1.0.2
   url_launcher: ^6.0.5
@@ -33,7 +35,7 @@ dependencies:
   flutter_spinkit: ^4.1.2
   glib:
     path: "./plugins/glib"
-  xml_layout: ^2.0.14
+  xml_layout: ^2.2.2
   cached_network_image: ^2.2.0+1
   flutter_svg_provider:
     path: "./plugins/flutter_svg_provider"
@@ -45,6 +47,9 @@ dependencies:
   crclib: ^2.0.0
   permission_handler: ^8.1.0
   html_unescape: ^2.0.0
+  filesystem_picker:
+    path: "./plugins/filesystem_picker"
+  flutter_material_pickers: ^3.1.0
 
 dev_dependencies:
   flutter_test:

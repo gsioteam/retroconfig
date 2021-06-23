@@ -19,14 +19,21 @@ const String language_key = "language";
 
 Map<String, String> cachedTemplates = {};
 
-const String retroarch_root_key = "RetroArchRoot";
+const String retroarch_playlists_key = "RetroArchPlaylists";
+const String retroarch_thumbnails_key = "RetroArchThumbnails";
 const String roms_root_key = "RomsRoot";
+const String old_selected_key = "OldSelected";
 const String tab_key = "tab";
+const String history_key = "history";
+const String disclaimer_key = "disclaimer";
+
+const String home_path = "home";
 
 class Configs {
   static Configs _instance;
 
-  Directory _retroArchRoot;
+  Directory _retroArchPlaylists;
+  Directory _retroArchThumbnails;
   Directory _romsRoot;
 
   Configs._();
@@ -51,9 +58,10 @@ class Configs {
         }
       }
     }
-    _retroArchRoot = await _defaultDirectory(retroarch_root_key, "RetroArch");
-    if (!await _retroArchRoot.exists()) {
-      await _retroArchRoot.create(recursive: true);
+    _retroArchPlaylists = await _defaultDirectory(retroarch_playlists_key, "RetroArch/playlists");
+    _retroArchThumbnails = await _defaultDirectory(retroarch_thumbnails_key, "RetroArch/thumbnails");
+    if (!await _retroArchPlaylists.exists()) {
+      await _retroArchPlaylists.create(recursive: true);
     }
     _romsRoot = await _defaultDirectory(roms_root_key, "ROMs");
     if (!await _romsRoot.exists()) {
@@ -61,11 +69,19 @@ class Configs {
     }
   }
 
-  Directory get retroArchRoot => _retroArchRoot;
-  set retroArchRoot(Directory directory) {
+  Directory get retroArchPlaylists => _retroArchPlaylists;
+  set retroArchPlaylists(Directory directory) {
     if (directory.existsSync()) {
-      _retroArchRoot = directory;
-      KeyValue.set(retroarch_root_key, directory.path);
+      _retroArchPlaylists = directory;
+      KeyValue.set(retroarch_playlists_key, directory.path);
+    }
+  }
+
+  Directory get retroArchThumbnails => _retroArchThumbnails;
+  set retroArchThumbnails(Directory directory) {
+    if (directory.existsSync()) {
+      _retroArchThumbnails = directory;
+      KeyValue.set(retroarch_thumbnails_key, directory.path);
     }
   }
 

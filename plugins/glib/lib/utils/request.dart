@@ -11,7 +11,7 @@ import '../core/core.dart';
 import '../core/data.dart';
 import '../core/gmap.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 
 enum BodyType {
   Raw,
@@ -26,7 +26,7 @@ class Request extends Base {
   }
 
   Uint8List body;
-  http.Request request;
+  Dio dio;
   int uploadNow;
   int uploadTotal;
   int downloadNow;
@@ -46,6 +46,8 @@ class Request extends Base {
   Callback onDownloadProgress;
   Callback onComplete;
   Callback onResponse;
+
+  String responseURL;
 
   bool cacheResponse = false;
 
@@ -75,6 +77,7 @@ class Request extends Base {
     on("getResponseBody", getResponseBody);
     on("getStatusCode", getStatusCode);
     on("getResponseHeaders", getResponseHeaders);
+    on("getResponseUrl", getResponseUrl);
   }
 
   _release() {
@@ -86,18 +89,18 @@ class Request extends Base {
   setup(String method, String url, int type) {
     uri = Uri.parse(url);
     this.type = BodyType.values[type];
-    request = http.Request(method, uri);
 
-    // dio = Dio(
-    //   BaseOptions(
-    //     method: method,
-    //     responseType: ResponseType.stream
-    //   )
-    // )
+    dio = Dio(
+      BaseOptions(
+        method: method,
+        responseType: ResponseType.stream
+      )
+    )
     //   ..httpClientAdapter = Http2Adapter(ConnectionManager(
     //   idleTimeout: 10000,
     //   onClientCreate: (_, config) => config.onBadCertificate = (_) => true,
-    // ));
+    // ))
+    ;
 
     control();
   }
@@ -107,6 +110,9 @@ class Request extends Base {
   }
 
   GMap getResponseHeaders() => responseHeader;
+
+  String responseUrl;
+  String getResponseUrl() => responseURL;
 
   int getStatusCode() => statusCode;
 
@@ -191,17 +197,24 @@ class Request extends Base {
           }
         }
       } else {
-        print("start request $uri");
-        if (headers != null) {
-          request.headers.addAll(headers);
-        }
-        if (body != null) {
-          request.bodyBytes = body;
-        }
-        var res = await request.send();
+        Response<ResponseBody> res = await dio.requestUri(
+          uri,
+          options: Options(
+            headers: headers,
+            followRedirects: true,
+            requestEncoder: (request, options) {
+              return options.data;
+            },
+            validateStatus: (status) {
+              return status < 500;
+            }
+          ),
+          data: body ?? Uint8List(0)
+        );
         if (_canceled) return;
-        downloadTotal = res.contentLength;
+        downloadTotal = int.tryParse(res.headers.value(Headers.contentLengthHeader) ?? "0") ?? 0;
         statusCode = res.statusCode;
+        responseURL = res.realUri.toString();
         responseHeader?.release();
         responseHeader = GMap.allocate({});
         res.headers.forEach((key, value) {
@@ -211,7 +224,7 @@ class Request extends Base {
 
         downloadNow = 0;
         List<int> receiveBody = [];
-        _subscription = res.stream.listen((value) {
+        _subscription = res.data.stream.listen((value) {
           downloadNow += value.length;
           receiveBody.addAll(value);
           onDownloadProgress?.invoke([downloadNow, downloadTotal]);
@@ -260,9 +273,7 @@ class Request extends Base {
     }
   }
 
-  getError() {
-    return _error;
-  }
+  getError() => _error;
 
   @override
   destroy() {

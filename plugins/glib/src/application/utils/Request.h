@@ -68,6 +68,7 @@ namespace gs {
         METHOD gc::Ref<gc::Data> getResponseBody();
         METHOD gc::Ref<gc::Map> getResponseHeaders();
         METHOD std::string getError();
+        METHOD std::string getResponseUrl();
 
         METHOD void start();
         METHOD void cancel();
@@ -91,6 +92,7 @@ namespace gs {
             ADD_METHOD(cls, Request, getResponseHeaders);
             ADD_METHOD(cls, Request, setCacheResponse);
             ADD_METHOD(cls, Request, getError);
+            ADD_METHOD(cls, Request, getResponseUrl);
             ADD_METHOD(cls, Request, start);
             ADD_METHOD(cls, Request, cancel);
         ON_LOADED_END

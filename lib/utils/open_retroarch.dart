@@ -2,6 +2,7 @@ import 'package:app_launcher/app_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../localizations/localizations.dart';
 import '../retroarch_dialog.dart';
 
 const List<String> retroarch_packages = [
@@ -14,6 +15,7 @@ bool _wait = false;
 void openRetroArch(BuildContext context) async {
   if (_wait) return;
   _wait = true;
+  var kt = lc(context);
   for (var packageName in retroarch_packages) {
     try {
       if (await AppLauncher.hasApp(androidApplicationId: packageName)) {
@@ -21,17 +23,17 @@ void openRetroArch(BuildContext context) async {
             context: context,
             builder: (context) {
               return AlertDialog(
-                title: Text("Open RetroArch"),
-                content: Text(packageName),
+                title: Text(kt("open_retroarch")),
+                content: Text(kt("found_retroarch").replaceFirst("{0}", packageName)),
                 actions: [
                   TextButton(
-                    child: Text("Yes"),
+                    child: Text(kt("yes")),
                     onPressed: () {
                       Navigator.of(context).pop(true);
                     },
                   ),
                   TextButton(
-                    child: Text("No"),
+                    child: Text(kt("no")),
                     onPressed: () {
                       Navigator.of(context).pop(false);
                     },

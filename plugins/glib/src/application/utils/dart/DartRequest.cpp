@@ -149,6 +149,11 @@ std::string Request::getError() {
     return imp->req()->apply(getError, pointer_vector());
 }
 
+std::string Request::getResponseUrl() {
+    NAME(getResponseUrl);
+    return imp->req()->apply(getResponseUrl, pointer_vector());
+}
+
 void Request::setCacheResponse(bool cache_response) {
     NAME(setCacheResponse);
     imp->req()->applyArgv(setCacheResponse, cache_response);

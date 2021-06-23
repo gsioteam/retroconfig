@@ -7,6 +7,7 @@ import 'package:glib/main/project.dart';
 import 'package:retroconfig/widgets/collection_view.dart';
 import '../configs.dart';
 import 'details.dart';
+import '../localizations/localizations.dart';
 
 class _DisplayRectClipper extends CustomClipper<Rect> {
 
@@ -212,7 +213,7 @@ class SearchState extends State<Search> {
               children: <Widget>[
                 TextField(
                   decoration: InputDecoration(
-                      hintText: "search",
+                      hintText: kt("search"),
                       border: InputBorder.none,
                       hintStyle: Theme.of(context).textTheme.bodyText1.copyWith(
                           color: Colors.black38
@@ -287,12 +288,11 @@ class SearchState extends State<Search> {
                   onTap: (item) async {
                     if (item.type == DataItemType.Data) {
                       Context itemContext = widget.project.createCollectionContext(DETAILS_INDEX, item).control();
-                      await Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                        return Details(
-                            project: widget.project,
-                            context: itemContext
-                        );
-                      }));
+                      await gotoDetails(
+                        context,
+                        project: widget.project,
+                        itemContext: itemContext
+                      );
                       itemContext.release();
                     }
                   },

@@ -96,6 +96,10 @@ module GS
     native 'gs::Encoder'
   end
 
+  class KeyValue < GS::Object
+    native 'gs::KeyValue'
+  end
+
   class Request < GS::Object
     native 'gs::Request'
 

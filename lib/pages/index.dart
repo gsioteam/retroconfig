@@ -1,6 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_material_pickers/flutter_material_pickers.dart' as picker;
 import 'package:glib/core/gmap.dart';
 import 'package:glib/main/context.dart';
 import 'package:glib/main/models.dart';
@@ -11,6 +12,7 @@ import 'package:retroconfig/widgets/collection_view.dart';
 import 'home.dart';
 import 'roms.dart';
 import 'dart:math' as math;
+import '../localizations/localizations.dart';
 
 class _CollectionData {
   Context context;
@@ -31,6 +33,16 @@ class Index extends StatefulWidget {
 
 const String _searchKey = "search";
 
+class IndexItem {
+  final String name;
+  final int value;
+
+  IndexItem(this.name, this.value);
+
+  @override
+  String toString() => name;
+}
+
 class IndexState extends State<Index> with TickerProviderStateMixin {
   List<_CollectionData> contexts = [];
   Project project;
@@ -41,6 +53,7 @@ class IndexState extends State<Index> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     List<Widget> tabs = [];
     List<Widget> bodies = [];
+    List<IndexItem> items = [];
     for (int i = 0, t = contexts.length; i < t; ++i) {
       _CollectionData data = contexts[i];
       tabs.add(Container(
@@ -48,6 +61,7 @@ class IndexState extends State<Index> with TickerProviderStateMixin {
         height: 36,
       ));
       bodies.add(Roms(project, data.context));
+      items.add(IndexItem(data.title, i));
     }
     return DefaultTabController(
       length: contexts.length,
@@ -63,6 +77,21 @@ class IndexState extends State<Index> with TickerProviderStateMixin {
             controller: tabController,
           ),
           automaticallyImplyLeading: false,
+          actions: tabs.length <= 4 ? null : [
+            IconButton(
+              icon: Icon(Icons.arrow_drop_down),
+              onPressed: () async {
+                IndexItem item = await picker.showMaterialScrollPicker(
+                  title: kt('index_select'),
+                  context: context,
+                  items: items,
+                  selectedItem: items[tabController.index]
+                );
+                if (item != null)
+                  tabController.index = item.value;
+              },
+            )
+          ],
         ) : null,
         body: TabBarView(
           children: bodies,
@@ -85,29 +114,30 @@ class IndexState extends State<Index> with TickerProviderStateMixin {
         var ctx = project.createIndexContext(category).control();
         contexts.add(_CollectionData(ctx, title));
       }
+
+      int tabIdx = 0;
+      String tabStr = KeyValue.get(tabKey);
+      if (tabStr != null && tabKey.isNotEmpty) {
+        tabIdx = int.tryParse(tabStr) ?? 0;
+      }
+      if (tabIdx >= contexts.length) {
+        tabIdx = math.max(0, contexts.length - 1);
+      }
+      tabController = TabController(
+        length: contexts.length,
+        vsync: this,
+        initialIndex: tabIdx
+      );
+      tabController.addListener(_onTab);
+
+      widget.controller.actions = project.search?.isNotEmpty == true ? [
+        ActionItem()
+          ..icon = Icon(Icons.search, key: searchKey,)
+          ..key = _searchKey
+      ] : [];
+      widget.controller.onClicked = _onAction;
     }
 
-    int tabIdx = 0;
-    String tabStr = KeyValue.get(tabKey);
-    if (tabStr != null && tabKey.isNotEmpty) {
-      tabIdx = int.tryParse(tabStr) ?? 0;
-    }
-    if (tabIdx >= contexts.length) {
-      tabIdx = math.max(0, contexts.length - 1);
-    }
-    tabController = TabController(
-      length: contexts.length,
-      vsync: this,
-      initialIndex: tabIdx
-    );
-    tabController.addListener(_onTab);
-
-    widget.controller.actions = project.search?.isNotEmpty == true ? [
-      ActionItem()
-        ..icon = Icon(Icons.search, key: searchKey,)
-        ..key = _searchKey
-    ] : [];
-    widget.controller.onClicked = _onAction;
   }
 
   @override

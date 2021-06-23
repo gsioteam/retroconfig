@@ -32,12 +32,11 @@ class RomsState extends State<Roms> {
       onTap: (DataItem item) async {
         if (item.type == DataItemType.Data) {
           Context itemContext = widget.project.createCollectionContext(DETAILS_INDEX, item).control();
-          await Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-            return Details(
-                project: widget.project,
-                context: itemContext
-            );
-          }));
+          await gotoDetails(
+            context,
+            project: widget.project,
+            itemContext: itemContext
+          );
           itemContext.release();
         }
       },

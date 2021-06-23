@@ -3,19 +3,30 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:glib/glib.dart';
+import 'package:glib/main/context.dart';
+import 'package:glib/main/data_item.dart';
 import 'package:glib/main/models.dart';
+import 'package:glib/main/project.dart';
 import 'package:glib/utils/git_repository.dart';
+import 'package:retroconfig/pages/details.dart';
+import 'package:retroconfig/pages/history.dart';
 import 'package:retroconfig/pages/home.dart';
 import 'package:path_provider/path_provider.dart' as platform;
 import 'package:retroconfig/pages/index.dart';
+import 'package:retroconfig/pages/settings.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:retroconfig/utils/history_manager.dart';
 
 import 'configs.dart';
+import 'utils/credits_dialog.dart';
 import 'utils/download_manager.dart';
 import 'utils/progress_items.dart';
 import 'widgets/progress_dialog.dart';
 import 'localizations/localizations.dart';
 import 'pages/libraries.dart';
+import 'utils/download_manager.dart';
 
 void main() {
   runApp(MainApp());
@@ -39,10 +50,14 @@ class _LifecycleEventHandler extends WidgetsBindingObserver {
   }
 }
 
-class Splash extends StatelessWidget {
+class Splash extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => SplashState();
+}
+
+class SplashState extends State<Splash> {
   @override
   Widget build(BuildContext context) {
-    _setup(context);
     return Container();
   }
 
@@ -55,7 +70,7 @@ class Splash extends StatelessWidget {
     // await load("assets/search.xml");
   }
 
-  void _setup(BuildContext context) async {
+  Future<void> _setup() async {
     await Configs().setup();
     await DownloadManager().setup();
     Directory dir = await platform.getApplicationSupportDirectory();
@@ -67,32 +82,19 @@ class Splash extends StatelessWidget {
     await fetchEnv(context);
     WidgetsBinding.instance.addObserver(_LifecycleEventHandler());
     await _loadTemplates();
+    await showDisclaimer(context);
+  }
 
-    List<DrawerItem> _items = [
-      DrawerItem(
-        icon: Icon(Icons.apps),
-        title: Text("Roms"),
-        builder: (context, actionsController) => Index(actionsController),
-      ),
-      DrawerItem(
-        icon: Icon(Icons.extension),
-        title: Text("Plugins"),
-        actionsController: ActionsController()
-          ..actions = [
-            ActionItem()
-              ..icon = Icon(Icons.add)
-              ..key = "add"
-          ],
-        builder: (context, actionsController) => Libraries(actionsController),
-      ),
-    ];
-    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
-        builder: (BuildContext context) {
-          return Home(
-            items: _items
-          );
-        }
-    ), (route) => route.isCurrent);
+  Future<void> showDisclaimer(BuildContext context) async {
+    String key = KeyValue.get(disclaimer_key);
+    if (key != "true") {
+      bool result = await showCreditsDialog(context);
+      if (result == true) {
+        KeyValue.set(disclaimer_key, "true");
+      } else {
+        SystemNavigator.pop();
+      }
+    }
   }
 
   Future<void> fetchEnv(BuildContext context) async {
@@ -105,7 +107,7 @@ class Splash extends StatelessWidget {
           context: context,
           builder: (context) {
             return ProgressDialog(
-              title: kt(context, ""),
+              title: kt("clone_base_framework"),
               item: item,
             );
           }
@@ -116,8 +118,18 @@ class Splash extends StatelessWidget {
     } else {
     }
   }
-}
 
+  @override
+  void initState() {
+    super.initState();
+    _setup().then((value) {
+      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
+          settings: RouteSettings(name: home_path),
+          builder: (BuildContext context) => Home()
+      ), (route) => route.isCurrent);
+    });
+  }
+}
 
 
 class MainApp extends StatefulWidget {
@@ -138,27 +150,32 @@ class MainAppState extends State<MainApp> {
 
     return NotificationListener<LocaleChangedNotification>(
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'RetroConfig',
         localizationsDelegates: [
           const PrettyLocalizationsDelegate(),
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
         ],
+        locale: locale,
+        supportedLocales: PrettyLocalizationsDelegate.supports.values,
         theme: ThemeData(
-            primaryColor: primaryColor,
-            backgroundColor: backgroundColor,
-            colorScheme: ColorScheme(
-                primary: Colors.tealAccent,
-                primaryVariant: Colors.white,
-                secondary: secondaryColor,
-                secondaryVariant: Colors.white,
-                surface: backgroundColor,
-                background: backgroundColor,
-                error: Colors.red,
-                onPrimary: primaryColor.hover,
-                onSecondary: secondaryColor.hover,
-                onSurface: backgroundColor.hover,
-                onBackground: backgroundColor.hover,
-                onError: Colors.red.shade900,
-                brightness: Brightness.dark)
+          primaryColor: primaryColor,
+          backgroundColor: backgroundColor,
+          colorScheme: ColorScheme(
+            primary: Colors.tealAccent,
+            primaryVariant: Colors.white,
+            secondary: secondaryColor,
+            secondaryVariant: Colors.white,
+            surface: backgroundColor,
+            background: backgroundColor,
+            error: Colors.red,
+            onPrimary: primaryColor.hover,
+            onSecondary: secondaryColor.hover,
+            onSurface: backgroundColor.hover,
+            onBackground: backgroundColor.hover,
+            onError: Colors.red.shade900,
+            brightness: Brightness.dark)
         ),
         home: Splash(),
       ),
@@ -169,5 +186,45 @@ class MainAppState extends State<MainApp> {
         return true;
       },
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    DownloadManager().onClicked = _clickedItem;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    DownloadManager().onClicked = null;
+  }
+
+  void _clickedItem(DownloadItem downloadItem) {
+    for (var item in HistoryManager().items) {
+      if (item.item.link == downloadItem.customData) {
+        gotoDetails(item);
+        break;
+      }
+    }
+  }
+
+  void gotoDetails(HistoryItem historyItem) async {
+    DataItem item = historyItem.item;
+    Project project = Project.allocate(item.projectKey);
+    if (!project.isValidated) {
+      Fluttertoast.showToast(msg: kt("no_project_found"));
+      project.release();
+      return;
+    }
+    Context ctx = project.createCollectionContext(DETAILS_INDEX, item).control();
+    await Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) {
+      return Details(
+          project: project,
+          context: ctx
+      );
+    }), ModalRoute.withName(home_path));
+    project.release();
+    ctx.release();
   }
 }

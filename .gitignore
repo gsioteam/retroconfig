@@ -6,3 +6,4 @@ plugins/glib/ios/lib
 .flutter-plugins
 .flutter-plugins-dependencies
 .packages
+android/app/

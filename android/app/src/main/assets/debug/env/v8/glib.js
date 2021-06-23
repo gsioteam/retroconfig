@@ -266,6 +266,11 @@ class Browser extends Object {
 Browser.class_name = 'gs::Browser';
 Browser.reg();
 
+class KeyValue extends Object {
+}
+KeyValue.class_name = 'gs::KeyValue';
+KeyValue.reg();
+
 module.exports = {
     Object,
     Callback,
@@ -284,4 +289,5 @@ module.exports = {
     SettingItem,
     Platform,
     Browser,
+    KeyValue,
 };

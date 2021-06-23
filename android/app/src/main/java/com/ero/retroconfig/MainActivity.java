@@ -16,7 +16,7 @@ import java.io.InputStream;
 import io.flutter.embedding.android.FlutterActivity;
 
 public class MainActivity extends FlutterActivity {
-    final boolean is_debug = true;
+    final boolean is_debug = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

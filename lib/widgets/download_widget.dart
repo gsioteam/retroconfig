@@ -6,12 +6,15 @@ import 'package:glib/core/array.dart';
 import 'package:glib/core/gmap.dart';
 import 'package:glib/main/context.dart';
 import 'package:glib/main/data_item.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../utils/download_manager.dart';
 import 'package:crypto/crypto.dart';
 import 'package:convert/convert.dart';
 import 'dart:convert';
 import 'package:path/path.dart' as path;
 import '../utils/retroarch_config.dart';
+import '../webview.dart';
+import '../localizations/localizations.dart';
 
 class DownloadWidget extends StatefulWidget {
   final Widget Function(BuildContext context, Map<String, dynamic> status) builder;
@@ -39,24 +42,30 @@ class DownloadWidgetState extends State<DownloadWidget> {
   String type;
   String cover;
   List<String> images;
+  String downloadType;
 
   @override
   Widget build(BuildContext context) {
     double progress = downloadItem.total > 0 ? (downloadItem.loaded / downloadItem.total) : 0;
 
     return widget.builder(context, {
-      "status": downloadItem.status.index,
+      "status": downloadType == "webview" ? 3 : downloadItem.status.index,
       "progress": progress,
       "title": title,
       "subtitle": subtitle,
       "loaded": downloadItem.loaded,
       "total": downloadItem.total,
       "start": () {
-        downloadItem.start(
-          url: link,
-          headers: headers,
-          title: title,
-          description: subtitle);
+        if (downloadType == 'direct') {
+          if (downloadItem.status == DownloadStatus.None)
+            downloadItem.start(
+                url: link,
+                headers: headers,
+                title: title,
+                description: subtitle);
+        } else if (downloadType == 'webview') {
+          launch(link);
+        }
       },
       "install": () async {
         if (downloadItem.status == DownloadStatus.Complete) {
@@ -71,12 +80,12 @@ class DownloadWidgetState extends State<DownloadWidget> {
           } catch (e, stack) {
             print(e);
             print(stack);
-            Fluttertoast.showToast(msg: "Install failed");
+            Fluttertoast.showToast(msg: kt("write_config_failed"));
             return;
           }
-          Fluttertoast.showToast(msg: "Write configure file success!");
+          Fluttertoast.showToast(msg: kt("write_config_success"));
         } else {
-          Fluttertoast.showToast(msg: "No complete");
+          Fluttertoast.showToast(msg: kt("not_complete"));
         }
       }
     });
@@ -89,10 +98,17 @@ class DownloadWidgetState extends State<DownloadWidget> {
     Uri uri = Uri.parse(link);
     title = currentData.title;
     subtitle = currentData.subtitle;
+    String itemLink = currentData.link;
     GMap data = item.data;
-    if (data != null && data.containsKey("headers")) {
-      headers = {};
-      headers.addAll(data["headers"]);
+    downloadType = 'direct';
+    if (data != null) {
+      if (data.containsKey("headers")) {
+        headers = {};
+        headers.addAll(data["headers"]);
+      }
+      if (data.containsKey('type')) {
+        downloadType = data['type'];
+      }
     } else {
       headers = null;
     }
@@ -111,12 +127,11 @@ class DownloadWidgetState extends State<DownloadWidget> {
     var dItem = DownloadManager()[key];
     if (downloadItem != dItem) {
       downloadItem = dItem;
+      downloadItem.customData = itemLink;
       downloadItem.onStatus = () {
-        print("onStatus ${downloadItem.status}");
         setState(() {});
       };
       downloadItem.onProgress = (loaded, total) {
-        print("onProgress");
         setState(() {});
       };
     }

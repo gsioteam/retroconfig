@@ -1,37 +1,24 @@
 
 const {Collection} = require('./collection');
-
-function makeItem(node, pageUrl, type) {
-    let item = glib.DataItem.new();
-    let link = node.querySelector('a');
-    item.title = node.querySelector('span').text;
-    let url = link.attr('href');
-    item.link = pageUrl.href(url);
-    item.picture = pageUrl.href(node.querySelector('img').attr('src'));
-    item.data = {
-        type: type
-    };
-
-    return item;
-}
+const makeItem = require('./make_item');
 
 class CategoryCollection extends Collection {
 
     constructor(data) {
         super(data);
         this.page = 0;
-        this.type = data.id;
+        this.type = data.type;
     }
 
     async fetch(url) {
         let pageUrl = new PageURL(url);
 
         let doc = await super.fetch(url);
-        let nodes = doc.querySelectorAll('.related-holder > .form-box');
+        let nodes = doc.querySelectorAll('table.table > tbody > tr');
 
         let items = [];
         for (let node of nodes) {
-            items.push(makeItem(node, pageUrl, this.type));
+            items.push(makeItem(pageUrl, node));
         }
         return items;
     }
@@ -48,6 +35,7 @@ class CategoryCollection extends Collection {
             this.setData(results);
             cb.apply(null);
         }).catch(function(err) {
+            console.log(err.message + '\n' + err.stack);
             if (err instanceof Error) 
                 err = glib.Error.new(305, err.message);
             cb.apply(err);
@@ -68,6 +56,23 @@ class CategoryCollection extends Collection {
             cb.apply(err);
         });
         return true;
+    }
+
+    onResponse(req) {
+        console.log('test0');
+        let cookies = req.getResponseHeaders().toObject()['set-cookie'];
+        console.log('test1');
+        if (cookies) {
+            let arr = [];
+            for (let cookie of cookies) {
+                let m = cookie.match(/(\w+)=([^;]+);/);
+                if (m && m[2] !== 'deleted') {
+                    arr.push(`${m[1]}=${m[2]}`);
+                }
+            }
+            console.log('test2');
+            glib.KeyValue.set('rendiyu:cookies', arr.join('; '));
+        }
     }
 }
 

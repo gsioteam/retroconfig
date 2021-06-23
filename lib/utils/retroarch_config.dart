@@ -12,6 +12,10 @@ import 'package:image/image.dart';
 import 'package:image/image.dart' as image;
 
 class RetroArchConfig {
+  static Future<File> getImage(BaseCacheManager cacheManager, String src) {
+    return cacheManager.getSingleFile(src).timeout(Duration(milliseconds: 500));
+  }
+
   static Future<void> install({
     String type,
     File romFile,
@@ -20,7 +24,7 @@ class RetroArchConfig {
     String name,
     BaseCacheManager cacheManager,
   }) async {
-    Directory dir = Directory("${Configs().retroArchRoot.path}/playlists");
+    Directory dir = Configs().retroArchPlaylists;
     if (!await dir.exists()) {
       await dir.create(recursive: true);
     }
@@ -58,7 +62,7 @@ class RetroArchConfig {
 
     String transformedName = name.replaceAll(RegExp("[&*/:`<>?\\|]"), "_");
     // String ext = path.extension(cover);
-    File file = await cacheManager.getSingleFile(cover);
+    File file = await getImage(cacheManager, cover);
     var imageBuffer = PngEncoder().encodeImage(decodeImage(await file.readAsBytes()));
 
     await File("${dir.path}/$transformedName.png").writeAsBytes(imageBuffer);
@@ -70,22 +74,26 @@ class RetroArchConfig {
     if (images.length == 0) {
       await File("${dir.path}/$transformedName.png").writeAsBytes(imageBuffer);
     } else if (images.length > 1) {
-      var animation = image.Animation();
+      File imageFile;
       for (var src in images) {
-        File file = await cacheManager.getSingleFile(src);
-        animation.addFrame(decodeImage(await file.readAsBytes()));
+        try {
+          imageFile = await getImage(cacheManager, src);
+          break;
+        } catch (e) {
+        }
       }
-      var imageBuffer = PngEncoder().encodeAnimation(animation);
+      imageFile = imageFile??file;
+      var imageBuffer = PngEncoder().encodeImage(decodeImage(await imageFile.readAsBytes()));
       await File("${dir.path}/$transformedName.png").writeAsBytes(imageBuffer);
     }  else {
-      file = await cacheManager.getSingleFile(images.first);
+      file = await getImage(cacheManager, images.first);
       var imageBuffer = PngEncoder().encodeImage(decodeImage(await file.readAsBytes()));
       await File("${dir.path}/$transformedName.png").writeAsBytes(imageBuffer);
     }
   }
 
   static Future<Directory> _thumbnailsDir(String type, String name) async {
-    Directory dir = Directory("${Configs().retroArchRoot.path}/thumbnails/$type/$name");
+    Directory dir = Directory("${Configs().retroArchThumbnails.path}/$type/$name");
     if (!await dir.exists()) {
       await dir.create(recursive: true);
     }

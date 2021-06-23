@@ -63,8 +63,11 @@
                                                     <else candidate="equal(1, ${downloadItem.status})">
                                                         <Icon>sync</Icon>
                                                     </else>
-                                                    <else>
+                                                    <else candidate="equal(2, ${downloadItem.status})">
                                                         <Icon>check</Icon>
+                                                    </else>
+                                                    <else>
+                                                        <Icon>open_in_browser</Icon>
                                                     </else>
                                                 </attr:leading>
                                                 <if candidate="isNotEmpty(${itemData.subtitle})">
@@ -81,11 +84,9 @@
                                                         </IconButton>
                                                     </attr:trailing>
                                                 </if>
-                                                <if candidate="equal(0, ${downloadItem.status})">
-                                                    <attr:onTap>
-                                                        <proxy target="${downloadItem.start}"/>
-                                                    </attr:onTap>
-                                                </if>
+                                                <attr:onTap>
+                                                    <proxy target="${downloadItem.start}"/>
+                                                </attr:onTap>
                                             </ListTile>
                                         </Builder>
                                     </Function>
@@ -93,7 +94,19 @@
                             </DownloadWidget>
                         </Builder>
                     </Function>
+                    <Divider/>
                 </for>
+                <ListTile>
+                    <attr:title>
+                        <Text arg:0='kt("select_rom")'/>
+                    </attr:title>
+                    <attr:leading>
+                        <Icon>folder</Icon>
+                    </attr:leading>
+                    <attr:onTap>
+                        <proxy target="$installLocalRom"/>
+                    </attr:onTap>
+                </ListTile>
             </ListView>
         </BetterRefreshIndicator>
     </attr:body>

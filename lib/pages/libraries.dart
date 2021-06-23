@@ -22,7 +22,7 @@ import '../widgets/spin_item.dart';
 import '../widgets/progress_dialog.dart';
 import '../utils/progress_items.dart';
 
-const LibURL = "https://api.github.com/repos/gsioteam/kumav_env/issues/1/comments?per_page={1}&page={0}";
+const LibURL = "https://api.github.com/repos/gsioteam/glib_env/issues/1/comments?per_page={1}&page={0}";
 const int per_page = 40;
 
 String generateMd5(String input) {
@@ -98,17 +98,17 @@ class _LibraryCellState extends State<LibraryCell> {
             actions: <Widget>[
               TextButton(
                   onPressed: (){
-                    Navigator.of(context).pop(false);
-                  },
-                  child: Text(kt("no"))
-              ),
-              TextButton(
-                  onPressed: (){
                     Navigator.of(context).pop(true);
                     install();
                   },
                   child: Text(kt("yes"))
-              )
+              ),
+              TextButton(
+                  onPressed: (){
+                    Navigator.of(context).pop(false);
+                  },
+                  child: Text(kt("no"))
+              ),
             ],
           );
         }
@@ -139,7 +139,7 @@ class _LibraryCellState extends State<LibraryCell> {
   void selectMainProject() {
     project.setMainProject();
     Fluttertoast.showToast(
-      msg: kt("after_select_main").replaceFirst("{0}", project.name).replaceFirst("{1}", kt("video_home")),
+      msg: kt("after_select_main").replaceFirst("{0}", project.name),
       toastLength: Toast.LENGTH_LONG,
     );
   }
@@ -156,17 +156,17 @@ class _LibraryCellState extends State<LibraryCell> {
               TextButton(
                   onPressed: (){
                     Navigator.of(context).pop();
-                  },
-                  child: Text(kt("no"))
-              ),
-              TextButton(
-                  onPressed: (){
-                    Navigator.of(context).pop();
                     selectMainProject();
                     LibraryNotification().dispatch(mainContext);
                   },
                   child: Text(kt("yes"))
-              )
+              ),
+              TextButton(
+                  onPressed: (){
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(kt("no"))
+              ),
             ],
           );
         }
@@ -323,15 +323,6 @@ class LibrariesState extends State<Libraries> {
     return true;
   }
 
-  bool onUpdateNotification(ScrollUpdateNotification notification) {
-    if (hasMore &&
-        notification.metrics.maxScrollExtent - notification.metrics.pixels < 20 &&
-        !_controller.loading) {
-      loadMore();
-    }
-    return false;
-  }
-
   void loadMore() async {
     int page = pageIndex + 1;
     _controller.startLoading();
@@ -347,8 +338,8 @@ class LibrariesState extends State<Libraries> {
     var project = Project.getMainProject();
     bool hasProject = project != null;
 
-    return BetterRefreshIndicator(
-      child: NotificationListener<ScrollUpdateNotification>(
+    return NotificationListener<LibraryNotification>(
+      child: BetterRefreshIndicator(
         child: ListView.separated(
           itemBuilder: (context, idx) {
             if (!hasProject) {
@@ -389,15 +380,15 @@ class LibrariesState extends State<Libraries> {
                           actions: [
                             TextButton(
                                 onPressed: (){
-                                  Navigator.of(context).pop(false);
-                                },
-                                child: Text(kt("no"))
-                            ),
-                            TextButton(
-                                onPressed: (){
                                   Navigator.of(context).pop(true);
                                 },
                                 child: Text(kt("yes"))
+                            ),
+                            TextButton(
+                                onPressed: (){
+                                  Navigator.of(context).pop(false);
+                                },
+                                child: Text(kt("no"))
                             ),
                           ],
                         );
@@ -423,9 +414,12 @@ class LibrariesState extends State<Libraries> {
           },
           itemCount: hasProject ? data.length : data.length + 1,
         ),
-        onNotification: onUpdateNotification,
+        controller: _controller,
       ),
-      controller: _controller,
+      onNotification: (notification) {
+        setState(() { });
+        return false;
+      },
     );
   }
 
@@ -435,6 +429,7 @@ class LibrariesState extends State<Libraries> {
     widget.controller.onClicked = _actionClicked;
     _controller = BetterRefreshIndicatorController();
     _controller.onRefresh = onRefresh;
+    _controller.onLoadMore = loadMore;
     libraryContext = LibraryContext.allocate();
     data = libraryContext.data.control();
     if (lastUpdateTime == null ||
@@ -451,6 +446,7 @@ class LibrariesState extends State<Libraries> {
     super.dispose();
     widget.controller.onClicked = null;
     _controller.onRefresh = null;
+    _controller.onLoadMore = null;
   }
 
   bool _wait = false;
