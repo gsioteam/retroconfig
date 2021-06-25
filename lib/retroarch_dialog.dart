@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'localizations/localizations.dart';
+import 'package:open_appstore/open_appstore.dart';
 
 class RetroArchDialog extends StatefulWidget {
   @override
@@ -23,14 +25,16 @@ class RetroArchDialogState extends State<RetroArchDialog> {
             leading: Icon(Icons.shop, size: 24,),
             title: Text(kt("google_play")),
             onTap: () {
-
+              OpenAppstore.launch(
+                androidAppId: "com.retroarch"
+              );
             },
           ),
           ListTile(
             leading: Icon(Icons.open_in_browser, size: 24,),
             title: Text(kt("official_website")),
             onTap: () {
-
+              launch("https://retroarch.com/?page=platforms");
             },
           ),
           Padding(padding: EdgeInsets.only(top: 10)),

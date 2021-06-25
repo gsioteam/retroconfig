@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'dart:ui';
 import 'package:flutter/src/foundation/basic_types.dart';
+import 'package:retroconfig/widgets/slide_images.dart';
 
 Register register = Register(() {
   XmlLayout.register("ImageSlideshow", (node, key) {
@@ -29,5 +30,16 @@ Register register = Register(() {
   XmlLayout.registerInline(Color, "fromRGBO", false, (node, method) {
     return Color.fromRGBO(method[0]?.toInt(), method[1]?.toInt(),
         method[2]?.toInt(), method[3]?.toDouble());
+  });
+  XmlLayout.register("SlideImages", (node, key) {
+    return SlideImages(
+        children: node.children<Widget>(),
+        width: node.s<double>("width", double.infinity),
+        height: node.s<double>("height", 200),
+        initialPage: node.s<int>("initialPage", 0),
+        indicatorColor: node.s<Color>("indicatorColor", Colors.blue),
+        indicatorBackgroundColor: node.s<Color>("indicatorBackgroundColor"),
+        onPageChanged: node.s<void Function(int)>("onPageChanged"),
+        autoPlayInterval: node.s<int>("autoPlayInterval"));
   });
 });

@@ -52,4 +52,5 @@ The copyright of the downloadable resources provided by this software belongs to
   "ok": "Ok",
   "open_retroarch": "Open RetroArch",
   "found_retroarch": "Found RetroArch {0}, would like open it?",
+  "others": "Others",
 };

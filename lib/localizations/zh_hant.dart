@@ -52,4 +52,5 @@ const Map words = {
   "ok": "好",
   "open_retroarch": "啟動RetroArch",
   "found_retroarch": "探知到{0}, 是否打開?",
+  "others": "其他",
 };

@@ -9,11 +9,11 @@
     <attr:body>
         <BetterRefreshIndicator controller="$refreshController">
             <ListView>
-                <ImageSlideshow height="200" autoPlayInterval="3000">
+                <SlideImages height="200" autoPlayInterval="3000">
                     <for array="${infoData.data.images}">
-                        <WebImage url="$item" fit="cover"/>
+                        <WebImage url="$item"/>
                     </for>
-                </ImageSlideshow>
+                </SlideImages>
                 <Padding padding="fromLTRB(5,10,5,4)">
                     <Text>
                         <attr:style>

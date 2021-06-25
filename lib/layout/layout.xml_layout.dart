@@ -1,12 +1,15 @@
 import 'package:xml_layout/xml_layout.dart';
 import 'package:xml_layout/register.dart';
 import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
+import 'dart:ui';
+import 'package:flutter/src/foundation/basic_types.dart';
+import 'package:retroconfig/widgets/slide_images.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/src/material/material_button.dart';
-import 'package:flutter/src/foundation/basic_types.dart';
 import 'package:flutter/src/rendering/mouse_cursor.dart';
 import 'package:flutter/src/material/button_theme.dart';
-import 'dart:ui';
 import 'package:flutter/src/painting/edge_insets.dart';
 import 'package:flutter/src/material/theme_data.dart';
 import 'package:flutter/src/painting/borders.dart';
@@ -109,17 +112,6 @@ Register register = Register(() {
     return MouseCursor.uncontrolled;
   });
   XmlLayout.registerEnum(ButtonTextTheme.values);
-  XmlLayout.registerInline(Color, "", false, (node, method) {
-    return Color(method[0]?.toInt());
-  });
-  XmlLayout.registerInline(Color, "fromARGB", false, (node, method) {
-    return Color.fromARGB(method[0]?.toInt(), method[1]?.toInt(),
-        method[2]?.toInt(), method[3]?.toInt());
-  });
-  XmlLayout.registerInline(Color, "fromRGBO", false, (node, method) {
-    return Color.fromRGBO(method[0]?.toInt(), method[1]?.toInt(),
-        method[2]?.toInt(), method[3]?.toDouble());
-  });
   XmlLayout.registerEnum(Brightness.values);
   XmlLayout.registerInline(EdgeInsets, "fromLTRB", false, (node, method) {
     return EdgeInsets.fromLTRB(method[0]?.toDouble(), method[1]?.toDouble(),

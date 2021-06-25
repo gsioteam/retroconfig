@@ -1,16 +1,13 @@
 # retroconfig
 
-Download roms and export to retroarch.
+Download ROMs and write RetroArch playlists. This app is published on [GooglePlay](https://play.google.com/store/apps/details?id=com.ero.retroconfig)
 
-## Getting Started
+## Description
 
-This project is a starting point for a Flutter application.
+- Manage plugins with Git.
+- Download ROMs with provided by the plugin.
+- Write the ROM infomation to RetroArch playlist.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![screenshot0](screenshots/ss0.jpeg)
+![screenshot1](screenshots/ss1.jpeg)
+![screenshot2](screenshots/ss2.jpeg)

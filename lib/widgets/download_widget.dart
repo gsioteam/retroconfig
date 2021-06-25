@@ -123,7 +123,7 @@ class DownloadWidgetState extends State<DownloadWidget> {
     } else {
       this.images = [cover];
     }
-    String key = "$type/${hex.encode(md5.convert(utf8.encode(item.link)).bytes)}${path.extension(uri.path)}";
+    String key = "$type/${path.basename(uri.path)}";
     var dItem = DownloadManager()[key];
     if (downloadItem != dItem) {
       downloadItem = dItem;

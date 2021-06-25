@@ -5,6 +5,7 @@ import 'package:glib/main/models.dart';
 import 'package:retroconfig/configs.dart';
 import 'package:retroconfig/widgets/settings_list.dart';
 import '../localizations/localizations.dart';
+import '../utils/credits_dialog.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -24,26 +25,26 @@ class SettingsState extends State<Settings> {
     return SettingsList(
       items: [
         SettingItem(
-            SettingItemType.Header,
-            kt("general")
+          SettingItemType.Header,
+          kt("general")
         ),
         SettingItem(
-            SettingItemType.Options,
-            kt("language"),
-            value: localeValue,
-            data: [
-              OptionItem("English", "en"),
-              OptionItem("中文(繁體)", "zh-hant"),
-              OptionItem("中文(简体)", "zh-hans"),
-            ],
-            onChange: (value) {
-              KeyValue.set(language_key, value);
-              LocaleChangedNotification(PrettyLocalizationsDelegate.supports[value]).dispatch(context);
-            }
+          SettingItemType.Options,
+          kt("language"),
+          value: localeValue,
+          data: [
+            OptionItem("English", "en"),
+            OptionItem("中文(繁體)", "zh-hant"),
+            OptionItem("中文(简体)", "zh-hans"),
+          ],
+          onChange: (value) {
+            KeyValue.set(language_key, value);
+            LocaleChangedNotification(PrettyLocalizationsDelegate.supports[value]).dispatch(context);
+          }
         ),
         SettingItem(
-            SettingItemType.Header,
-            kt("retroarch")
+          SettingItemType.Header,
+          kt("retroarch")
         ),
         SettingItem(
           SettingItemType.File,
@@ -73,6 +74,18 @@ class SettingsState extends State<Settings> {
             setState(() {
               Configs().romsRoot = dir;
             });
+          }
+        ),
+        SettingItem(
+          SettingItemType.Header,
+          kt("others")
+        ),
+        SettingItem(
+          SettingItemType.Button,
+          kt("disclaimer"),
+          value: "",
+          data: () {
+            showCreditsDialog(context);
           }
         ),
       ],

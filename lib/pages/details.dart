@@ -69,7 +69,6 @@ class DetailsState extends State<Details> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: CollectionView(
         key: _key,
